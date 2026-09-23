@@ -1,0 +1,18 @@
+[
+    { "id": 1, "name": "Smartphone Pro X", "category": "elektronik", "price": 5999000, "emoji": "📱", "image": null },
+    { "id": 2, "name": "Laptop Ultra Slim", "category": "elektronik", "price": 12499000, "emoji": "💻", "image": null },
+    { "id": 3, "name": "Headphone Wireless", "category": "elektronik", "price": 899000, "emoji": "🎧", "image": null },
+    { "id": 4, "name": "Kamera DSLR", "category": "elektronik", "price": 7499000, "emoji": "📷", "image": null },
+    { "id": 5, "name": "Kaos Polos Premium", "category": "fashion", "price": 99000, "emoji": "👕", "image": null },
+    { "id": 6, "name": "Jacket Denim", "category": "fashion", "price": 399000, "emoji": "🧥", "image": null },
+    { "id": 7, "name": "Sneakers Sport", "category": "fashion", "price": 599000, "emoji": "👟", "image": null },
+    { "id": 8, "name": "Jam Tangan Elegan", "category": "fashion", "price": 450000, "emoji": "⌚", "image": null },
+    { "id": 9, "name": "Sofa Minimalis", "category": "rumah", "price": 2499000, "emoji": "🛋️", "image": null },
+    { "id": 10, "name": "Lampu Meja LED", "category": "rumah", "price": 199000, "emoji": "💡", "image": null },
+    { "id": 11, "name": "Rak Buku Modern", "category": "rumah", "price": 750000, "emoji": "📚", "image": null },
+    { "id": 12, "name": "Set Peralatan Dapur", "category": "rumah", "price": 350000, "emoji": "🍳", "image": null },
+    { "id": 13, "name": "Yoga Mat", "category": "olahraga", "price": 150000, "emoji": "🧘", "image": null },
+    { "id": 14, "name": "Dumbbell 5kg", "category": "olahraga", "price": 250000, "emoji": "🏋️", "image": null },
+    { "id": 15, "name": "Sepeda Statis", "category": "olahraga", "price": 1899000, "emoji": "🚴", "image": null },
+    { "id": 16, "name": "Tas Olahraga", "category": "olahraga", "price": 180000, "emoji": "🎒", "image": null }
+]

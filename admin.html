@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Toko Online</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .admin-badge {
+            background: #ff4757;
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .back-link,
+        .user-btn {
+            padding: 10px 18px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .back-link:hover,
+        .user-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .view {
+            display: none;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        .login-card {
+            max-width: 420px;
+            margin: 80px auto;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .login-card h2 {
+            color: #667eea;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .login-card p {
+            color: #666;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #667eea;
+        }
+
+        .password-field {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: #888;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5a6fd6;
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        .dashboard-header {
+            margin-bottom: 25px;
+        }
+
+        .dashboard-header h1 {
+            color: #333;
+            font-size: 1.6rem;
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-card h4 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .card h3 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .admin-actions .btn {
+            width: auto;
+            flex: 0 0 auto;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .admin-table th,
+        .admin-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .admin-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .admin-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .admin-table .product-emoji {
+            font-size: 1.5rem;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 5px;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .admin-table .product-thumb {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .image-preview {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #eee;
+        }
+
+        .edit-btn {
+            background: #3498db;
+            color: white;
+        }
+
+        .delete-btn {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #333;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            z-index: 400;
+            opacity: 0;
+            transition: all 0.3s;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .notice {
+            background: #fff3cd;
+            color: #856404;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-actions .btn {
+                width: 100%;
+            }
+
+            .admin-table {
+                font-size: 0.85rem;
+            }
+
+            .admin-table th,
+            .admin-table td {
+                padding: 8px;
+            }
+
+            .action-btns {
+                flex-direction: column;
+            }
+
+            .login-card {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <a href="ecommerce.html" class="logo">
+                <span>🛡️</span>
+                <span>Admin Dashboard</span>
+                <span class="admin-badge">ADMIN</span>
+            </a>
+            <div class="header-actions">
+                <a href="ecommerce.html" class="back-link">← Kembali ke Toko</a>
+                <button class="user-btn" id="userBtn" onclick="logout()">Keluar</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Login View -->
+        <div class="view active" id="loginView">
+            <div class="login-card">
+                <h2>Login Admin</h2>
+                <p>Masukkan kredensial admin untuk mengelola produk.</p>
+                <div id="loginNotice"></div>
+                <form id="adminLoginForm">
+                    <div class="form-group">
+                        <label for="adminEmail">Email</label>
+                        <input type="email" id="adminEmail" required value="admin@toko.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="adminPassword">Password</label>
+                        <div class="password-field">
+                            <input type="password" id="adminPassword" required value="admin123">
+                            <button type="button" class="toggle-password" onclick="togglePassword('adminPassword')">👁️</button>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Masuk</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Dashboard View -->
+        <div class="view" id="dashboardView">
+            <div class="dashboard-header">
+                <h1>Selamat datang, <span id="adminName">Admin</span></h1>
+            </div>
+
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <h4 id="statTotalProducts">0</h4>
+                    <p>Total Produk</p>
+                </div>
+                <div class="stat-card">
+                    <h4 id="statTotalCategories">0</h4>
+                    <p>Kategori</p>
+                </div>
+                <div class="stat-card">
+                    <h4 id="statTotalUsers">0</h4>
+                    <p>Pengguna</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Tambah / Edit Produk</h3>
+                <form id="productForm">
+                    <input type="hidden" id="productId">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="productName">Nama Produk</label>
+                            <input type="text" id="productName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="productCategory">Kategori</label>
+                            <select id="productCategory" required>
+                                <option value="elektronik">Elektronik</option>
+                                <option value="fashion">Fashion</option>
+                                <option value="rumah">Rumah</option>
+                                <option value="olahraga">Olahraga</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="productPrice">Harga (Rp)</label>
+                            <input type="number" id="productPrice" required min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="productEmoji">Emoji</label>
+                            <input type="text" id="productEmoji" maxlength="2" placeholder="📱">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="productImage">Gambar Produk (Opsional)</label>
+                        <input type="file" id="productImage" accept="image/*">
+                        <div id="imagePreview" style="margin-top: 10px;"></div>
+                    </div>
+                    <div class="admin-actions">
+                        <button type="submit" class="btn btn-primary" id="productSubmitBtn">Tambah Produk</button>
+                        <button type="button" class="btn btn-secondary" onclick="resetProductForm()">Reset Form</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3 style="margin-bottom: 0;">Daftar Produk</h3>
+                    <button class="btn btn-secondary" onclick="exportProducts()" style="width: auto; padding: 8px 18px; font-size: 0.9rem;">Export JSON</button>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Gambar</th>
+                                <th>Nama</th>
+                                <th>Kategori</th>
+                                <th>Harga</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminProductsTable">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const STORAGE_USERS_KEY = 'toko_online_users';
+        const STORAGE_CURRENT_USER_KEY = 'toko_online_current_user';
+        const STORAGE_PRODUCTS_KEY = 'toko_online_products';
+        const ADMIN_EMAIL = 'admin@toko.com';
+
+        let products = [];
+
+        function getUsers() {
+            const users = localStorage.getItem(STORAGE_USERS_KEY);
+            return users ? JSON.parse(users) : [];
+        }
+
+        function saveUsers(users) {
+            localStorage.setItem(STORAGE_USERS_KEY, JSON.stringify(users));
+        }
+
+        function getCurrentUser() {
+            const user = localStorage.getItem(STORAGE_CURRENT_USER_KEY);
+            return user ? JSON.parse(user) : null;
+        }
+
+        function saveCurrentUser(user) {
+            localStorage.setItem(STORAGE_CURRENT_USER_KEY, JSON.stringify(user));
+        }
+
+        function clearCurrentUser() {
+            localStorage.removeItem(STORAGE_CURRENT_USER_KEY);
+        }
+
+        function isAdmin(user = null) {
+            const checkUser = user || getCurrentUser();
+            return checkUser && checkUser.email === ADMIN_EMAIL;
+        }
+
+        function initAdminAccount() {
+            const users = getUsers();
+            if (!users.find(u => u.email === ADMIN_EMAIL)) {
+                users.push({
+                    name: 'Administrator',
+                    email: ADMIN_EMAIL,
+                    phone: '081234567890',
+                    password: 'admin123',
+                    isAdmin: true
+                });
+                saveUsers(users);
+            }
+        }
+
+        async function loadProducts() {
+            const stored = localStorage.getItem(STORAGE_PRODUCTS_KEY);
+            if (stored) {
+                products = JSON.parse(stored);
+            } else {
+                try {
+                    const response = await fetch('produk.json');
+                    products = await response.json();
+                } catch (e) {
+                    products = [];
+                }
+                saveProducts();
+            }
+        }
+
+        function saveProducts() {
+            localStorage.setItem(STORAGE_PRODUCTS_KEY, JSON.stringify(products));
+        }
+
+        function formatRupiah(price) {
+            return 'Rp ' + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        function showView(viewName) {
+            document.querySelectorAll('.view').forEach(view => view.classList.remove('active'));
+            document.getElementById(viewName + 'View').classList.add('active');
+        }
+
+        function checkAuth() {
+            const currentUser = getCurrentUser();
+            if (currentUser && isAdmin(currentUser)) {
+                document.getElementById('adminName').textContent = currentUser.name.split(' ')[0];
+                showView('dashboard');
+                renderAdminDashboard();
+                resetProductForm();
+            } else {
+                showView('login');
+                if (currentUser) {
+                    document.getElementById('loginNotice').innerHTML =
+                        `<div class="notice">Anda login sebagai ${currentUser.name}. Silakan login dengan akun admin.</div>`;
+                }
+            }
+        }
+
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            input.type = input.type === 'password' ? 'text' : 'password';
+        }
+
+        let currentProductImage = null;
+
+        document.getElementById('productImage').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                currentProductImage = event.target.result;
+                document.getElementById('imagePreview').innerHTML =
+                    `<img src="${currentProductImage}" class="image-preview" alt="Preview">`;
+            };
+            reader.readAsDataURL(file);
+        });
+
+        function updateDashboardStats() {
+            document.getElementById('statTotalProducts').textContent = products.length;
+            document.getElementById('statTotalCategories').textContent = new Set(products.map(p => p.category)).size;
+            document.getElementById('statTotalUsers').textContent = getUsers().length;
+        }
+
+        function renderAdminDashboard() {
+            updateDashboardStats();
+
+            const tbody = document.getElementById('adminProductsTable');
+            tbody.innerHTML = products.map(product => {
+                const thumbHtml = product.image
+                    ? `<img src="${product.image}" class="product-thumb" alt="${product.name}">`
+                    : `<span class="product-emoji">${product.emoji || ''}</span>`;
+                return `
+                <tr>
+                    <td>${thumbHtml}</td>
+                    <td>${product.name}</td>
+                    <td>${product.category}</td>
+                    <td>${formatRupiah(product.price)}</td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="action-btn edit-btn" onclick="editProduct(${product.id})">Edit</button>
+                            <button class="action-btn delete-btn" onclick="deleteProduct(${product.id})">Hapus</button>
+                        </div>
+                    </td>
+                </tr>
+            `}).join('');
+        }
+
+        function resetProductForm() {
+            document.getElementById('productForm').reset();
+            document.getElementById('productId').value = '';
+            document.getElementById('productSubmitBtn').textContent = 'Tambah Produk';
+            document.getElementById('imagePreview').innerHTML = '';
+            currentProductImage = null;
+        }
+
+        function editProduct(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            document.getElementById('productId').value = product.id;
+            document.getElementById('productName').value = product.name;
+            document.getElementById('productCategory').value = product.category;
+            document.getElementById('productPrice').value = product.price;
+            document.getElementById('productEmoji').value = product.emoji || '';
+            document.getElementById('productSubmitBtn').textContent = 'Simpan Perubahan';
+
+            currentProductImage = product.image || null;
+            if (currentProductImage) {
+                document.getElementById('imagePreview').innerHTML =
+                    `<img src="${currentProductImage}" class="image-preview" alt="${product.name}">`;
+            } else {
+                document.getElementById('imagePreview').innerHTML = '';
+            }
+
+            document.getElementById('productForm').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function deleteProduct(productId) {
+            if (!confirm('Apakah Anda yakin ingin menghapus produk ini?')) return;
+
+            products = products.filter(p => p.id !== productId);
+            saveProducts();
+            renderAdminDashboard();
+            showToast('Produk berhasil dihapus');
+        }
+
+        function exportProducts() {
+            const dataStr = JSON.stringify(products, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'produk.json';
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('File produk.json berhasil diunduh');
+        }
+
+        function logout() {
+            clearCurrentUser();
+            document.getElementById('loginNotice').innerHTML = '';
+            showView('login');
+            showToast('Anda telah keluar');
+        }
+
+        document.getElementById('adminLoginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('adminEmail').value.trim().toLowerCase();
+            const password = document.getElementById('adminPassword').value;
+
+            const users = getUsers();
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (!user) {
+                showToast('Email atau password salah');
+                return;
+            }
+
+            if (!isAdmin(user)) {
+                showToast('Akun ini tidak memiliki akses admin');
+                return;
+            }
+
+            saveCurrentUser(user);
+            document.getElementById('adminName').textContent = user.name.split(' ')[0];
+            document.getElementById('adminPassword').value = '';
+            showView('dashboard');
+            renderAdminDashboard();
+            resetProductForm();
+            showToast(`Selamat datang, ${user.name.split(' ')[0]}!`);
+        });
+
+        document.getElementById('productForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const id = document.getElementById('productId').value;
+            const name = document.getElementById('productName').value.trim();
+            const category = document.getElementById('productCategory').value;
+            const price = parseInt(document.getElementById('productPrice').value);
+            const emoji = document.getElementById('productEmoji').value.trim();
+            const image = currentProductImage;
+
+            if (id) {
+                const index = products.findIndex(p => p.id === parseInt(id));
+                if (index !== -1) {
+                    const existingImage = products[index].image;
+                    products[index] = {
+                        id: parseInt(id),
+                        name,
+                        category,
+                        price,
+                        emoji,
+                        image: image !== null ? image : existingImage
+                    };
+                    showToast('Produk berhasil diperbarui');
+                }
+            } else {
+                const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
+                products.push({ id: newId, name, category, price, emoji, image: image || null });
+                showToast('Produk berhasil ditambahkan');
+            }
+
+            saveProducts();
+            renderAdminDashboard();
+            resetProductForm();
+        });
+
+        (async () => {
+            initAdminAccount();
+            await loadProducts();
+            checkAuth();
+        })();
+    </script>
+</body>
+</html>
